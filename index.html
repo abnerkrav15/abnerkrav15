@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <link href="https://fonts.cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Playfair+Display:ital@1&display=swap" rel="stylesheet">
+    <style>
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+            background: linear-gradient(45deg, #ff9a9e, #fad0c4);
+            font-family: 'Playfair Display', serif;
+            overflow: hidden;
+        }
+
+        .envelope {
+            width: 300px;
+            height: 200px;
+            background: #fff;
+            position: relative;
+            cursor: pointer;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+            transition: all 0.5s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+        }
+
+        .envelope:hover {
+            transform: scale(1.05) rotate(2deg);
+        }
+
+        .envelope::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            border-left: 150px solid transparent;
+            border-right: 150px solid transparent;
+            border-top: 100px solid #f8e6e6;
+            transform-origin: top;
+            transition: transform 0.6s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+        }
+
+        .envelope.open::before {
+            transform: rotateX(180deg);
+        }
+
+        .envelope-text {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 28px;
+            color: #ff6b6b;
+            z-index: 1;
+            font-family: 'Dancing Script', cursive;
+        }
+
+        .letter {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -200%) scale(0) rotate(-10deg);
+            width: 280px;
+            height: 380px;
+            background: #fff;
+            padding: 20px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+            opacity: 0;
+            transition: all 0.8s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            border-radius: 15px;
+            background: linear-gradient(to bottom, #fff5f5, #fff);
+            border: 2px solid #ffb6b6;
+        }
+
+        .letter.show {
+            transform: translate(-50%, -50%) scale(1) rotate(0deg);
+            opacity: 1;
+        }
+
+        .question {
+            font-size: 32px;
+            color: #ff6b6b;
+            margin-bottom: 30px;
+            font-family: 'Dancing Script', cursive;
+            animation: floatText 3s infinite;
+        }
+
+        @keyframes floatText {
+            0% { transform: translateY(0) rotate(0deg); }
+            50% { transform: translateY(-10px) rotate(2deg); }
+            100% { transform: translateY(0) rotate(0deg); }
+        }
+
+        .buttons {
+            display: flex;
+            gap: 20px;
+        }
+
+        .btn {
+            padding: 12px 35px;
+            border: none;
+            border-radius: 25px;
+            font-size: 20px;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-family: 'Playfair Display', serif;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.2);
+        }
+
+        .btn:hover {
+            transform: scale(1.1) translateY(-3px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+        }
+
+        .btn-si {
+            background: linear-gradient(45deg, #4CAF50, #45a049);
+            color: white;
+        }
+
+        .btn-no {
+            background: linear-gradient(45deg, #ff4444, #cc0000);
+            color: white;
+        }
+
+        .btn-no.disabled {
+            background: #cccccc;
+            cursor: not-allowed;
+            transform: scale(1);
+            box-shadow: none;
+        }
+
+        .roses {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%) scale(0);
+            opacity: 0;
+            transition: all 0.8s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+            text-align: center;
+            z-index: 1000;
+        }
+
+        .roses.show {
+            transform: translate(-50%, -50%) scale(1);
+            opacity: 1;
+        }
+
+        .bouquet {
+            font-size: 100px;
+            color: #ff4081;
+            text-shadow: 0 0 10px rgba(255,64,129,0.3);
+            animation: bouquetWiggle 3s infinite;
+        }
+
+        @keyframes bouquetWiggle {
+            0% { transform: rotate(-5deg); }
+            50% { transform: rotate(5deg); }
+            100% { transform: rotate(-5deg); }
+        }
+
+        .thank-note {
+            font-family: 'Dancing Script', cursive;
+            font-size: 32px;
+            color: #ff6b6b;
+            margin-top: 20px;
+            animation: fadeInUp 1s forwards;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.1);
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .hearts {
+            position: fixed;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 999;
+        }
+
+        .heart {
+            position: absolute;
+            font-size: 20px;
+            color: #ff6b6b;
+            animation: floatHeart 4s linear infinite;
+        }
+
+        @keyframes floatHeart {
+            0% {
+                transform: translateY(100vh) scale(0);
+                opacity: 1;
+            }
+            100% {
+                transform: translateY(-100vh) scale(1);
+                opacity: 0;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="envelope">
+        <div class="envelope-text">Para ti ❤️</div>
+    </div>
+    <div class="letter">
+        <div class="question">¿Quieres ser mi novia? 💝</div>
+        <div class="buttons">
+            <button class="btn btn-si">Sí</button>
+            <button class="btn btn-no">No</button>
+        </div>
+    </div>
+    <div class="roses">
+        <div class="bouquet">💐</div>
+        <div class="thank-note">¡Gracias por hacerme tan feliz! ❤️</div>
+    </div>
+    <div class="hearts"></div>
+
+    <script>
+        const envelope = document.querySelector('.envelope');
+        const letter = document.querySelector('.letter');
+        const btnNo = document.querySelector('.btn-no');
+        const btnSi = document.querySelector('.btn-si');
+        const roses = document.querySelector('.roses');
+        const hearts = document.querySelector('.hearts');
+
+        envelope.addEventListener('click', () => {
+            envelope.classList.add('open');
+            setTimeout(() => {
+                letter.classList.add('show');
+                envelope.style.display = 'none';
+            }, 600);
+        });
+
+        btnNo.addEventListener('click', () => {
+            btnNo.classList.add('disabled');
+            btnNo.disabled = true;
+        });
+
+        function createHeart() {
+            const heart = document.createElement('div');
+            heart.classList.add('heart');
+            heart.innerHTML = '❤️';
+            heart.style.left = Math.random() * 100 + 'vw';
+            heart.style.animationDuration = (Math.random() * 3 + 2) + 's';
+            hearts.appendChild(heart);
+            setTimeout(() => {
+                heart.remove();
+            }, 4000);
+        }
+
+        btnSi.addEventListener('click', () => {
+            letter.style.display = 'none';
+            roses.classList.add('show');
+            
+            // Crear corazones flotantes
+            setInterval(createHeart, 300);
+        });
+    </script>
+</body>
+</html>
